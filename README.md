@@ -83,3 +83,16 @@ automatically request the keys.
     export GST_PLUGIN_PATH="${GST_PLUGIN_PATH}:${PWD}/gst/cencdec"
     gst-launch-1.0 playbin uri='https://media.axprod.net/TestVectors/v7-MultiDRM-MultiKey-MultiPeriod/Manifest_1080p_ClearKey.mpd'
 
+
+
+
+## HS
+
+```
+apt-get install libssl-dev
+apt-get install libcurl4-openssl-dev graphviz
+meson setup build
+meson compile -C build
+meson install -C build
+```
+

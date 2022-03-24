@@ -48,6 +48,7 @@ G_BEGIN_DECLS
 #define CLEARKEY_PROTECTION_ID "e2719d58-a985-b3c9-781a-b030af78d30e"
 #define W3C_EME_PROTECTION_ID "1077efec-c0b2-4d02-ace3-3c1e52e2fb4b"
 #define PLAYREADY_PROTECTION_ID     "9a04f079-9840-4286-ab92-e65be0885f95"
+#define WIDEVINE_PROTECTION_ID     "edef8ba9-79d6-4ace-a3c8-27dcd51d21ed"
 
 #define GST_TYPE_CENC_DRM \
   (gst_cenc_drm_get_type())
@@ -70,6 +71,7 @@ typedef enum
   GST_DRM_MARLIN,
   GST_DRM_CLEARKEY,
   GST_DRM_PLAYREADY,
+  GST_DRM_WIDEVINE,
   GST_DRM_UNKNOWN = -1
 } GstCencDrmType;
 

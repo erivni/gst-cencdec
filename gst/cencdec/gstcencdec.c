@@ -90,6 +90,8 @@ static GstStaticPadTemplate gst_cenc_decrypt_sink_template =
         "application/x-cenc, protection-system=(string)"
         MARLIN_MPD_PROTECTION_ID "; "
         "application/x-cenc, protection-system=(string)"
+        WIDEVINE_PROTECTION_ID "; "
+        "application/x-cenc, protection-system=(string)"
         MARLIN_PSSH_PROTECTION_ID)
     );
 
@@ -353,7 +355,7 @@ gst_cenc_decrypt_transform_ip (GstBaseTransform * base, GstBuffer * buf)
   GstCencDecrypt *self = GST_CENC_DECRYPT (base);
   GstFlowReturn ret = GST_FLOW_OK;
   GstMapInfo map, iv_map;
-  const GstProtectionMeta *prot_meta = NULL;
+  GstProtectionMeta *prot_meta = NULL;
   guint pos = 0;
   guint sample_index = 0;
   guint subsample_count;
@@ -538,7 +540,7 @@ gst_cenc_decrypt_sink_event_handler (GstBaseTransform * trans, GstEvent * event)
       if (self->drm == NULL) {
         self->drm = gst_cenc_drm_stub_factory (event);
       } else {
-        if (gst_buffer_memcmp (self->drm->system_id, 0, system_id,
+        if (TRUE || gst_buffer_memcmp (self->drm->system_id, 0, system_id,
                 SYSTEM_ID_LENGTH) == 0) {
           drm_status =
               gst_cenc_drm_process_content_protection_event (self->drm, event);

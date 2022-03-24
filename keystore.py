@@ -33,14 +33,14 @@ class KeyStore(object):
         self.keys[bin_kid] = key
 
     def save(self):
-        for kid, key in self.keys.iteritems():
+        for kid, key in self.keys.items():
             # Marlin naming
-            id_str = ':'.join(['urn','marlin','kid',binascii.hexlify(kid)])
-            filename = os.path.join('/tmp', hashlib.sha1(id_str).hexdigest()) + '.key'
+            id_str = ':'.join(['urn','marlin','kid',binascii.hexlify(kid).decode() ])
+            filename = os.path.join('/tmp', hashlib.sha1(id_str.encode()).hexdigest()) + '.key'
             self.store_key(filename, key)
 
             # Clearkey naming
-            filename = os.path.join('/tmp', binascii.hexlify(kid)) + '.key'
+            filename = os.path.join('/tmp', binascii.hexlify(kid).decode() ) + '.key'
             self.store_key(filename, key)
 
     def store_key(self, filename, key):

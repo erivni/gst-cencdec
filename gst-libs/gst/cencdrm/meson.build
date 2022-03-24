@@ -16,6 +16,7 @@ gst_cencdrm = static_library('gstcencdrm-@0@'.format(apiversion),
   gst_cencdrm_sources,
   c_args : gst_c_args + ['-DGST_USE_UNSTABLE_API', '-DBUILDING_GST_CENCDRM'],
   dependencies : gst_cencdrm_dependencies,
+  include_directories: [configinc],
   install : true,
 )
 

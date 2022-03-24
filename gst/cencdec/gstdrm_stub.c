@@ -196,9 +196,20 @@ gst_cenc_drm_stub_factory (GstEvent * event)
   } else if (g_ascii_strcasecmp (system_id, W3C_EME_PROTECTION_ID) == 0) {
     drm = g_object_new (GST_TYPE_CENC_DRM_STUB, NULL);
     drm->drm_type = GST_DRM_CLEARKEY;
+  } else if (g_ascii_strcasecmp (system_id, WIDEVINE_PROTECTION_ID) == 0) {
+    drm = g_object_new (GST_TYPE_CENC_DRM_STUB, NULL);
+    drm->drm_type = GST_DRM_WIDEVINE;
   }
+
   if (drm) {
     drm->system_id = gst_cenc_drm_urn_string_to_raw (drm, system_id);
+
+    GstProtectionMeta *prot_meta = NULL;
+    prot_meta = (GstProtectionMeta *) gst_buffer_get_protection_meta (drm->system_id);
+
+    GST_DEBUG ("Processing of content protection event for %s failed: 0x%x",
+          system_id, rv);
+
     rv = gst_cenc_drm_process_content_protection_event (drm, event);
     if (rv != GST_DRM_OK) {
       GST_DEBUG ("Processing of content protection event for %s failed: 0x%x",
@@ -834,6 +845,8 @@ gst_cenc_drm_stub_process_pssh_data (GstCencDRMStub * self, GstBuffer * data)
 {
   if (self->parent.drm_type == GST_DRM_PLAYREADY) {
     return gst_cenc_drm_stub_process_playready_pro_element (self, data);
+  } else if (self->parent.drm_type == GST_DRM_WIDEVINE) {
+    return GST_DRM_OK; // mock widevine
   }
   return GST_DRM_ERROR_NOT_IMPLEMENTED;
 }
